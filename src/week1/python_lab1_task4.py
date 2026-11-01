@@ -58,29 +58,58 @@ Examples (these are also used to check your work):
 def count_characters(text: str) -> int:
     """Count characters that are not whitespace."""
     # TODO: implement
-    raise NotImplementedError("count_characters() is not implemented yet")
+    return len("".join(text.split()))
 
 
 def count_words(text: str) -> int:
     """Count number of whitespace-separated words."""
     # TODO: implement
-    raise NotImplementedError("count_words() is not implemented yet")
+    return len(text.split())
 
 
 def extract_numbers(text: str) -> list[int]:
     """Return a list of the integers found in text, in order."""
     # TODO: implement
-    raise NotImplementedError("extract_numbers() is not implemented yet")
+    numbers = []
+    for word in text.split():
+        clean_word = word.rstrip(".,!?;:")
+        # Check if it's a digit OR a negative digit
+        if clean_word.isdigit() or (
+            clean_word.startswith("-") and clean_word[1:].isdigit()
+        ):
+            numbers.append(int(clean_word))
+    return numbers
 
 
 def analyze_text(text: str) -> dict:
     """Return a dict with characters, words, numbers, sum and average."""
     # TODO: call the helper functions and compute sum and average
-    raise NotImplementedError("analyze_text() is not implemented yet")
+    chars = count_characters(text)
+    words = count_words(text)
+    nums = extract_numbers(text)
+
+    num_sum = sum(nums)
+    # Prevent Division by Zero using an inline if/else statement
+    num_avg = num_sum / len(nums) if len(nums) > 0 else 0.0
+
+    return {
+        "characters": chars,
+        "words": words,
+        "numbers": nums,
+        "sum": num_sum,
+        "average": num_avg,
+    }
 
 
 if __name__ == "__main__":
     # Keep all input() calls inside this block, otherwise the autograder
     # cannot import your file.
     # TODO: read input, call analyze_text(), and print results
-    pass
+    user_text = input("Enter text: ")
+    result = analyze_text(user_text)
+
+    print(f"Characters (no spaces): {result['characters']}")
+    print(f"Words: {result['words']}")
+    print(f"Numbers: {result['numbers']}")
+    print(f"Sum: {result['sum']}")
+    print(f"Average: {result['average']:.2f}")
